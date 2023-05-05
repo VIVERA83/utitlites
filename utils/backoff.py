@@ -24,7 +24,8 @@ def delta_time() -> float:
 
 
 def before_execution(
-        total_timeout=10, request_timeout: int = 3, logger: logging.Logger = logging.getLogger(), ) -> Any:
+        total_timeout=10, request_timeout: int = 3, logger: logging.Logger = logging.getLogger(),
+        raise_exception: bool = False) -> Any:
     """Декоратор, который пытается выполнить входящий вызываемый объект.
 
     В течении определенного времянки которое указано в параметре `total_timeout`,
@@ -43,6 +44,7 @@ def before_execution(
         async def inner(*args, **kwargs):
             # по сути засекаем время которое будет работать цикл
             task = create_task(timeout(event, total_timeout))
+            error = None
             while not event.is_set():
                 try:
                     result = await wait_for(func(*args, **kwargs), request_timeout)
@@ -51,16 +53,21 @@ def before_execution(
                         task.cancel()
                     return result
                 except Exception as ex:
+                    error = ex
                     sec = randint(0, 1) + delta_time()
                     msg = (
-                        f"db connection error...\n"
-                        f"location: before_execution,  {ex}\n"
-                        f"nested function: {func}\n"
-                        f"sleep: {sec} sec\n"
-                        f"task: {task.get_name()}\n"
+                        f" an update error occurred...\n"
+                        f" location: before_execution,  \n"
+                        f" nested function: {func}\n"
+                        f" Exception: {ex}\n"
+                        f" next attempt to execute via: {sec} sec\n"
+                        f" task: {task.get_name()}\n"
                     )
                     logger.error(msg)
                     await sleep(sec)
+            logger.warning(f" Failed to execute: {func.__name__}", )
+            if raise_exception:
+                raise error
             return None
 
         return inner
