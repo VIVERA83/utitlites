@@ -1,3 +1,4 @@
+"""Декоратор, который ограничивает время выполнения функции."""
 from functools import wraps
 from typing import Callable
 import signal
