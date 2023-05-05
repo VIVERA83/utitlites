@@ -33,4 +33,4 @@ if __name__ == '__main__':
         print(work_1(3))  # raise TimeoutError
     except TimeoutError:
         print("Timeout...")
-    forever_lasting()
+    print(forever_lasting())  # None
