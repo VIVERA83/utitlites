@@ -6,7 +6,7 @@ from utils.backoff import before_execution
 import logging
 
 
-@before_execution(total_timeout=2, request_timeout=1, logger=logger, raise_exception=True)
+@before_execution(total_timeout=2, request_timeout=1, logger=logger, raise_exception=False)
 async def division(a: float, b: float) -> float:
     """Деление двух чисел.
 
@@ -25,7 +25,7 @@ async def connect_to_some_api(event: Event):
     когда ElasticSearch полностью еще не прогрузился, а приложение уже пытается подключиться к серверу.
     В таком случае вылетает исключение и приложение вероятнее всего корректно работать уже не будет.
     """
-    # имитация подключения к удаленному серверу
+    # Имитация подключения к удаленному серверу
     # request_timeout = 1 - не даст долго ждать подключения, поэтому выполнение функции будет перервано по тайм-ауту,
     # в реальности же вывалится ошибка типа ConnectionError.
     # Но так как функция задекорирована `before_execution` через request_timeout=1,
@@ -47,7 +47,7 @@ async def fake_elastic_search(event: Event):
 
 async def main(a: Any, d: Any):
     ready = asyncio.Event()
-    await asyncio.gather(fake_elastic_search(ready), connect_to_some_api(ready))
+    await asyncio.gather(fake_elastic_search(ready), connect_to_some_api(ready), division(a, d))
 
 
 if "__main__" == __name__:
