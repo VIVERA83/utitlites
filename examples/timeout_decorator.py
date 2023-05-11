@@ -13,7 +13,7 @@ def work_sleep_2(sec: int) -> str:
     return "Wake Up"
 
 
-@timeout(time_out=5, timeout_error=False)
+@timeout(delay_time=5, timeout_error=False)
 def forever_lasting():
     start = time()
     while True:
@@ -24,9 +24,9 @@ def forever_lasting():
 
 if __name__ == '__main__':
     # вариант оборачивания функции в декоратор
-    work_1 = timeout(time_out=2)(work_sleep)
+    work_1 = timeout(delay_time=2)(work_sleep)
     # Вариант оборачивания функции в декораторе. Немедленный вызов
-    timeout(time_out=2, timeout_error=False)(work_sleep)(2)
+    timeout(delay_time=2, timeout_error=False)(work_sleep)(2)
     print(work_sleep_2(1))  # Wake Up
     print(work_sleep_2(3))  # None
     try:
@@ -34,3 +34,9 @@ if __name__ == '__main__':
     except TimeoutError:
         print("Timeout...")
     print(forever_lasting())  # None
+    # I'm working already: 1.0012803077697754 sec.
+    # I'm working already: 2.0013651847839355 sec.
+    # I'm working already: 3.0020499229431152 sec.
+    # I'm working already: 4.002134084701538 sec.
+    # I'm working already: 5.0026514530181885 sec.
+

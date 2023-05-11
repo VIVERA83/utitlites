@@ -38,6 +38,6 @@ class TestTimeoutDecorator:
         """
 
         work_1 = timeout()(work_sleep)
-        work_2 = timeout(time_out=1, timeout_error=False)(work_sleep)
+        work_2 = timeout(delay_time=1, timeout_error=False)(work_sleep)
         assert work_1(1) == "Wake Up"
         assert work_2(3) is None
