@@ -49,7 +49,7 @@ if sys.platform == "win32":
 
 
 else:
-    def timeout(time_out: int = 2, timeout_error: bool = True):
+    def timeout(delay_time: int = 2, timeout_error: bool = True):
         """Декоратор, который ограничивает время выполнения функции.
 
         Если функция не успела завершиться за заданное время - `time_out`
@@ -58,7 +58,7 @@ else:
             True: будет инициализировано исключение TimeoutError.
             False: вернет None.
 
-        :param time_out: Количество секунд, которым ограничивается время выполнения функции.
+        :param delay_time: Количество секунд, которым ограничивается время выполнения функции.
         :param timeout_error: При истечении времянки выбрасывать ошибку TimeoutError или нет
         :return:
         """
@@ -70,7 +70,7 @@ else:
             @wraps(func)
             def inner(*args, **kwargs):
                 signal.signal(signal.SIGALRM, timeout_handler)
-                signal.alarm(time_out)
+                signal.alarm(delay_time)
                 try:
                     return func(*args, **kwargs)
                 except TimeoutError:
@@ -81,7 +81,7 @@ else:
 
             return inner
 
-        if time_out < 1:
+        if delay_time < 1:
             raise ValueError("`delay_time` must be greater than 0")
 
         return wrapper
