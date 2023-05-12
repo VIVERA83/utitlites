@@ -1,13 +1,14 @@
 """Декоратор, который ограничивает время выполнения функции."""
-from functools import wraps
-from typing import Callable
 import signal
 import sys
 import threading
+from functools import wraps
+from typing import Callable
 
 __all__ = ["timeout"]
 
 if sys.platform == "win32":
+
     def timeout(delay_time: int = 2, timeout_error: bool = True):
         """Декоратор, который ограничивает время выполнения функции.
 
@@ -33,7 +34,7 @@ if sys.platform == "win32":
                     result = func(*args, **kwargs)
                     is_time_out = False
 
-                thread = threading.Thread(name='TIMEOUT', target=handler, daemon=True)
+                thread = threading.Thread(name="TIMEOUT", target=handler, daemon=True)
                 thread.start()
                 thread.join(delay_time)
                 if is_time_out and timeout_error:
@@ -47,8 +48,8 @@ if sys.platform == "win32":
 
         return wrapper
 
-
 else:
+
     def timeout(delay_time: int = 2, timeout_error: bool = True):
         """Декоратор, который ограничивает время выполнения функции.
 

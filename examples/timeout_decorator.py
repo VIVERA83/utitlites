@@ -1,5 +1,6 @@
-from utils.timeout_decorator import timeout
 from time import sleep, time
+
+from utils.timeout_decorator import timeout
 
 
 def work_sleep(sec: int) -> str:
@@ -22,7 +23,7 @@ def forever_lasting():
     return "It will never come"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # вариант оборачивания функции в декоратор
     work_1 = timeout(delay_time=2)(work_sleep)
     # Вариант оборачивания функции в декораторе. Немедленный вызов
@@ -39,4 +40,3 @@ if __name__ == '__main__':
     # I'm working already: 3.0020499229431152 sec.
     # I'm working already: 4.002134084701538 sec.
     # I'm working already: 5.0026514530181885 sec.
-
