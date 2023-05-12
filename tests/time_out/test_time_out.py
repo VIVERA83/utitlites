@@ -1,8 +1,8 @@
 """Проверка работы декоратора timeout."""
 import pytest
 
-from utils.timeout_decorator import timeout
 from tests.utils import work_sleep
+from utils.timeout_decorator import timeout
 
 
 class TestTimeoutDecorator:

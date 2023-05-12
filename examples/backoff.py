@@ -1,12 +1,16 @@
 import asyncio
+import logging
 from asyncio import Event
 from typing import Any
+
 from loguru import logger
+
 from utils.backoff import before_execution
-import logging
 
 
-@before_execution(total_timeout=2, request_timeout=1, logger=logger, raise_exception=False)
+@before_execution(
+    total_timeout=2, request_timeout=1, logger=logger, raise_exception=False
+)
 async def division(a: float, b: float) -> float:
     """Деление двух чисел.
 
@@ -16,7 +20,9 @@ async def division(a: float, b: float) -> float:
     return a / b
 
 
-@before_execution(total_timeout=15, request_timeout=1, logger=logger, raise_exception=True)
+@before_execution(
+    total_timeout=15, request_timeout=1, logger=logger, raise_exception=True
+)
 async def connect_to_some_api(event: Event):
     """Имитация подключения к удаленному серверу.
 
@@ -47,7 +53,9 @@ async def fake_elastic_search(event: Event):
 
 async def main(a: Any, d: Any):
     ready = asyncio.Event()
-    await asyncio.gather(fake_elastic_search(ready), connect_to_some_api(ready), division(a, d))
+    await asyncio.gather(
+        fake_elastic_search(ready), connect_to_some_api(ready), division(a, d)
+    )
 
 
 if "__main__" == __name__:

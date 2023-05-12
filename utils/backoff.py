@@ -4,7 +4,7 @@ from functools import wraps
 from random import randint
 from typing import Any, Callable
 
-__all__ = ['before_execution']
+__all__ = ["before_execution"]
 
 
 async def timeout(event: Event, time_out: int):
@@ -24,8 +24,11 @@ def delta_time() -> float:
 
 
 def before_execution(
-        total_timeout=10, request_timeout: int = 3, logger: logging.Logger = logging.getLogger(),
-        raise_exception: bool = False) -> Any:
+    total_timeout=10,
+    request_timeout: int = 3,
+    logger: logging.Logger = logging.getLogger(),
+    raise_exception: bool = False,
+) -> Any:
     """Декоратор, который пытается выполнить входящий вызываемый объект.
 
     В течении определенного времянки которое указано в параметре `total_timeout`,
@@ -67,7 +70,9 @@ def before_execution(
                     )
                     logger.error(msg)
                     await sleep(sec)
-            logger.warning(f" Failed to execute: {func.__name__}", )
+            logger.warning(
+                f" Failed to execute: {func.__name__}",
+            )
             if raise_exception:
                 raise error
             return None
