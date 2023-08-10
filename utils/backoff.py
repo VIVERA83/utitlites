@@ -61,12 +61,12 @@ def before_execution(
                     error = ex
                     sec = randint(0, 1) + delta_time()
                     msg = (
-                        f" an update error occurred...\n"
-                        f" location: before_execution,  \n"
-                        f" nested function: {func}\n"
+                        f" An update error occurred...\n"
+                        f" Location: before_execution,  \n"
+                        f" Nested function: {func}\n"
                         f" Exception: {ex}\n"
-                        f" next attempt to execute via: {sec} sec\n"
-                        f" task: {task.get_name()}\n"
+                        f" Next attempt to execute via: {sec} sec\n"
+                        f" Task: {task.get_name()}\n"
                     )
                     logger.error(msg)
                     await sleep(sec)
